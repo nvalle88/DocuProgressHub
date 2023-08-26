@@ -1,0 +1,109 @@
+﻿@model SmartAdminSaludsa.Models.RegisterOnlineViewModel
+
+
+<div id="content" class="container">
+
+    <div class="row">
+        @{
+            await Html.RenderPartialAsync("_LoginTextRegisterOnline");
+        }
+        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+            <div class="well no-padding">
+                <form asp-controller="Account" asp-action="Register" id="login-form" class="smart-form client-form">
+                    <header>
+                        Registration
+                    </header>
+                    @Html.AntiForgeryToken()
+                    <fieldset>
+                        <section class="col col-lg-4">
+                             <label class="label">Nombre</label>
+                            <label class="input">
+                                 <i class="icon-append fa fa-user"></i>
+                                <input type="text" asp-for="Name" placeholder="First name">
+                                <b class="tooltip tooltip-bottom-right">Ingrese su nombre</b>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </label>
+                        </section>
+                        <section class="col col-lg-4">
+                            <label class="label">Apellidos</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                <input type="text" asp-for="LastName" placeholder="Last name">
+                                <b class="tooltip tooltip-bottom-right">Ingrese sus apellidos</b>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </label>
+                        </section>
+                        <section class="col col-lg-4">
+                            <label class="label">Tel&eacute;fono</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-mobile-phone"></i>
+                                <input type="text" asp-for="PhoneNumber" placeholder="Phone">
+                                <b class="tooltip tooltip-bottom-right">Ingrese tel&eacute;fono de contacto</b>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </label>
+                        </section>
+
+                        <section class="col col-lg-6">
+                            <label class="label">Correo electr&oacute;nico</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-envelope"></i>
+                                <input type="email" asp-for="Email" placeholder="Email address" autocomplete="off" value="">
+                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </label>
+                        </section>
+                        <section class="col col-lg-6">
+                             <label class="label">Confirmar correo electr&oacute;nico</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-envelope"></i>
+                                <input type="email" asp-for="EmailConfirm" placeholder="Confirm email address" autocomplete="off" value="">
+                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                                <span asp-validation-for="EmailConfirm" class="text-danger"></span>
+                            </label>
+                        </section>
+                    </fieldset>
+                    <fieldset>
+                        <section class="col col-lg-6">
+                            <label class="label">Contrase&ntilde;a</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                <input type="password" asp-for="Password" placeholder="Password" autocomplete="off">
+                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </label>
+                        </section>
+                        <section class="col col-lg-6">
+                            <label class="label">Confirmar contrase&ntilde;a</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                <input type="password" asp-for="PasswordConfirm" placeholder="Confirm password" autocomplete="off">
+                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                                <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                            </label>
+                        </section>
+
+                    </fieldset>
+                    <footer>
+                        <button type="submit" class="btn btn-primary ladda-button" id="btn-guardar">
+                            <span class="ladda-label" id="laddaSpanGuardar">Registarse</span>
+                        </button>
+                        <a asp-action="Index" asp-controller="Home" onclick="cargando()" class="btn btn-default"><strong> Regresar </strong></a>
+                    </footer>
+                    <div class="message">
+                        <i class="fa fa-check"></i>
+                        <p>
+                            Thank you for your registration!
+                        </p>
+                    </div>
+                </form>
+            </div>
+            @{
+                await Html.RenderPartialAsync("_SocialMedia");
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -1,0 +1,63 @@
+﻿@model  SmartAdminSaludsa.Models.LoginViewModel
+
+<div id="content" class="container">
+    <div class="row">
+        @{
+            await Html.RenderPartialAsync("_LoginText");
+        }
+        <div class="row ">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-4">
+                <div class="well no-padding">
+                    <form asp-controller="Account" asp-action="Login" id="login-form" class="smart-form client-form">
+                        <header>
+                            <b>Login</b>
+                        </header>
+
+                        <fieldset>
+                            <section>
+                                <label class="label">Correo electr&oacute;nico</label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-user"></i>
+                                    <input type="email" asp-for="Email" value="">
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Ingrese su direcci&oacute;n de correo electr&oacute;nico</b>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </label>
+                            </section>
+
+                            <section>
+                                <label class="label">Contrase&ntilde;a</label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-lock"></i>
+                                    <input type="password" asp-for="Password" value="">
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Ingrese su contrase&ntilde;a</b>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </label>
+                            </section>
+
+                            <div class="note">
+                                <a asp-controller="Account" asp-action="ForgotPassword">&iquest;Perdi&oacute; su contrase&ntilde;a?</a>
+                            </div>
+                        </fieldset>
+                        <footer>
+                            <button type="submit" class="btn btn-primary ladda-button" id="btn-guardar">
+                                <span class="ladda-label" id="laddaSpanGuardar">Ingresar</span>
+                            </button>
+                            <a asp-action="Register" onclick="cargando()" class="btn btn-default"><strong> Registrate </strong></a>
+                        </footer>
+                    </form>
+
+                </div>
+                @{
+                    await Html.RenderPartialAsync("_SocialMedia");
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+

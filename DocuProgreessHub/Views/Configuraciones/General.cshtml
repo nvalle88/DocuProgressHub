@@ -1,0 +1,245 @@
+﻿
+@section Migas{
+    <li class="active">Configuraci&oacute;n</li>
+    <li><a asp-controller="Configuraciones" asp-action="General" onclick="cargando()">General</a></li>
+}
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <div class="row">
+
+        <article class="col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-1" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+                <header>
+                    <span class="widget-icon">
+                        <i class="fa fa-edit"></i>
+                    </span>
+                    <h2>Configuraci&oacute;n general </h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        <form action="" class="smart-form">
+                            <header>
+                                <b>Información General</b>
+                            </header>
+
+                            <fieldset>
+
+                                <section>
+                                    <label class="label">Nombre del sitio *</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-asterisk"></i>
+                                        <input type="text" data-bind="value: datosGenerales().nombre" placeholder="Nombre del sitio">
+                                        <b class="tooltip tooltip-bottom-right">Ingrese el nombre del sitio</b>
+                                    </label>
+                                </section>
+
+                                <section>
+                                    <label class="label">Imagen</label>
+                                    <label for="file" class="input input-file">
+                                        <div class="button">
+                                            <input type="file" name="file" onchange="this.parentNode.nextSibling.value = this.value">Buscar
+                                        </div>
+                                        <input type="text" placeholder="Ingrese la imagen" readonly="">
+                                        <b class="tooltip tooltip-bottom-right">Ingrese la imagen</b>
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="label">Descipci&oacute;n</label>
+                                    <label class="textarea textarea-resizable">
+                                        <textarea rows="3" data-bind="value: datosGenerales().descripcion" class="custom-scroll"></textarea>
+                                        <b class="tooltip tooltip-bottom-right">Ingrese la descripci&oacute;n</b>
+                                    </label>
+                                </section>
+
+                                <div class="row col col-lg-3">
+                                    <header>
+                                        <b>Notificaciones</b>
+                                    </header>
+                                    <section class="col col-lg-12">
+                                        <br />
+                                        <label class="toggle">
+                                            <input type="checkbox" name="checkbox-toggle" data-bind="checked: datosGenerales().notificacionCorreo" checked="checked">
+                                            <i data-swchon-text="ON" data-swchoff-text="OFF"></i>Correo
+                                        </label>
+                                        <label class="toggle">
+                                            <input type="checkbox" name="checkbox-toggle" data-bind="checked: datosGenerales().notificacionSms">
+                                            <i data-swchon-text="ON" data-swchoff-text="OFF"></i>SMS
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+
+
+
+
+                            <footer>
+                                <button id="btn-guardar" class="btn btn-primary"
+                                        data-bind="click: guardar"
+                                        type="submit">
+                                    <i class="fa fa-save"></i>
+                                    &nbsp;&nbsp;GUARDAR
+                                </button>
+                                <button type="button" class="btn btn-default"
+                                        data-bind="click: cancelar" onclick="cargando()">
+                                    CANCELAR
+                                </button>
+                            </footer>
+                        </form>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+
+    </div>
+
+
+
+</section>
+
+
+
+
+@section Scripts{
+
+    <script>
+
+        var viewModel = new ViewModel();
+
+        function ViewModel() {
+
+            var self = this;
+
+            self.datosGenerales = ko.observable( {
+                nombre: ko.observable(""),
+                descripcion: ko.observable(""),
+                notificacionCorreo: ko.observable(false),
+                notificacionSms: ko.observable(false),
+            });
+
+            self.datosIniciales = {
+                nombre: "Ejemplo",
+                descripcion: "Ejemplo",
+                notificacionCorreo: true,
+                notificacionSms: true,
+            };
+
+
+            self.cancelar = function () {
+
+                mostrarLoadingPanel("content", "");
+                self.datosGenerales().nombre(self.datosIniciales.nombre);
+                self.datosGenerales().descripcion(self.datosIniciales.descripcion);
+                self.datosGenerales().notificacionCorreo(self.datosIniciales.notificacionCorreo);
+                self.datosGenerales().notificacionSms(self.datosIniciales.notificacionSms);
+                $("#content").waitMe("hide");
+            };
+
+            self.validarFormulario = function ()
+            {
+
+                if (self.datosGenerales().nombre() == "" || self.datosGenerales().descripcion() == "") {
+                    var mensaje = "";
+                    if (self.datosGenerales().nombre() == "") {
+                        mensaje = `${mensaje} El nombre es obligatorio.`
+                    }
+
+                    if (self.datosGenerales().descripcion() == "") {
+                        mensaje = `${mensaje} La descripción es obligatoria.`
+                    }
+                    mostrarNotificacion("Aviso", mensaje);
+                    return false;
+                }
+                return true;
+            }
+
+
+            self.guardar = function (paginaActual) {
+
+                mostrarLoadingPanel("content", "");
+
+                var validacion = self.validarFormulario();
+
+                if (validacion == false) {
+                    $("#content").waitMe("hide");
+                    return
+                }
+
+                var url = '@Url.Action("Configuraciones", "GuardarConfiguracionGeneral")';
+
+                var datos = {
+                    nombre: self.datosGenerales().nombre(),
+                    descripcion: self.datosGenerales().descripcion(),
+                    notificacionCorreo: self.datosGenerales().notificacionCorreo(),
+                    notificacionSms: self.datosGenerales().notificacionSms()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify(datos),
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    timeout: 500000,
+                    success: function (data) {
+
+                        if (data.estado == "Error") {
+
+                            mostrarNotificacion("Error", data.mensaje);
+                            $("#content").waitMe("hide");
+                        }
+                        else {
+
+                            mostrarNotificacion("Información", "No existen registros.");
+
+                            $("#content").waitMe("hide");
+                        }
+                    },
+                    error: function (data) {
+
+                        $("#content").waitMe("hide");
+                        mostrarNotificacion("Error","No fue posible guardar la información, intente nuevamente. Si el error persiste consulte al administrador del sistema.");
+                    }
+                });
+            };
+        };
+
+        ko.applyBindings(viewModel);
+
+    </script>
+}

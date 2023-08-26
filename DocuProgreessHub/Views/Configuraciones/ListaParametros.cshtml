@@ -1,0 +1,237 @@
+﻿
+@model List<SmartAdmin.Seed.ModelsSaludsa.ParametroServicioWeb>
+
+@section Migas{
+
+    <li class="active">Configuraci&oacute;n</li>
+    <li><a asp-controller="Configuraciones" asp-action="ListaParametros" onclick="cargando()">Lista de par&aacute;metros</a></li>
+
+
+}
+<style type="text/css">
+    textarea {
+        white-space: normal;
+        text-align: justify;
+    }
+</style> 
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a asp-action="Gestionar" onclick="cargando()" class="btn btn-primary"><strong><i class="fa fa-plus"></i> Nuevo</strong></a>
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-12">
+        <br />
+    </div>
+</div>
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-deletebutton="false" data-widget-collapsed="false" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon">
+                        <i class="fa fa-table"></i>
+                    </span>
+                    <h2>Listado de par&aacute;metros </h2>
+
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                    </div>
+                    <div class="widget-body no-padding">
+                        <table id="dt_basic" data-page-length="25" class="table table-striped table-bordered table-hover" width="100%">
+                            <thead>
+                                <tr>
+                                    <th data-hide="phone" style="text-align: center; width: 10%;">Id</th>
+                                    <th data-hide="phone" style="text-align: center; width: 10%;"> C&oacute;digo</th>
+                                    <th style="text-align: center; width: 10%;">Servicio</th>
+                                    <th data-hide="phone,tablet" style="text-align: center; width: 60%;">Valor</th>
+                                    <th style="text-align: center; width: 10%;">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.IdParametroServicioWeb
+                                        </td>
+                                        <td>
+                                            @item.Servicio
+                                        </td>
+                                        <td>
+                                            @item.Codigo
+                                        </td>
+                                        <td style="text-align: justify;">
+                                            <textarea cols="70" rows="2" disabled>
+                                            @item.Valor
+                                        </textarea>
+
+                                        </td>
+
+                                        <td align="center">
+                                            <a asp-action="Gestionar" onclick="cargando()" class="font-md text-left fa fa-edit " asp-route-id="@item.IdParametroServicioWeb"></a> |
+                                            <a href="javascript:void(0);" class="btnEliminar font-md text-left fa fa-trash-o" id="@item.IdParametroServicioWeb" onclick="EliminarUsuario(this)" data-descripcion="&#191; Desea eliminar el parámetro... ?"></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+        </article>
+    </div>
+</section>
+<!-- end widget grid -->
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_BootboxPartial");}
+
+
+    <script>
+
+    function EliminarUsuario(e) {
+
+        var btnEliminar = $(e);
+        var descripcion = btnEliminar.data("descripcion");
+        bootbox.confirm({
+            title: " ¿ Eliminar ?",
+            message: descripcion,
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Cancelar'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Confirmar'
+                }
+            },
+            callback: function (result) {
+
+                if (result == true) {
+
+                    mostrarLoadingPanel("content", "");
+                    var id = btnEliminar.prop("id");
+                    var myUrl = '@Url.Action("EliminarUsuario", "Usuarios")';
+
+                    var url = myUrl + '?id=' + id;
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        contentType: "application/json; charset=utf-8",
+                        datatype: "json",
+                        timeout: 500000,
+                        success: function (data) {
+                            if (data.estado == 'Error') {
+                                mostrarNotificacion("Error", data.mensaje);
+                                $("#content").waitMe("hide");
+                            }
+                            else {
+
+
+                                var urlInicio = '@Url.Action("Index", "Usuarios")';
+                                $("#content").waitMe("hide");
+                                window.location = urlInicio;
+
+                            }
+                        },
+                        error: function (data) {
+
+                            $("#content").waitMe("hide");
+                            mostrarNotificacion("Error", "No fue posible elminar el usuario seleccionado, intente nuevamente. Si el error persiste consulte al administrador del sistema.");
+                        }
+                    });
+                };
+            }
+        });
+    }
+    </script>
+
+    <script type="text/javascript">
+
+
+
+
+
+
+        pageSetUp();
+
+
+        var pagefunction = function () {
+            var responsiveHelper_dt_basic = undefined;
+
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            $('#dt_basic').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "oLanguage": {
+                    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+                },
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_basic) {
+                        responsiveHelper_dt_basic =
+                            new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_dt_basic.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_dt_basic.respond();
+                }
+            });
+            $("div.toolbar")
+                .html(
+                    '<div class="text-right"><img src="/img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
+
+            // Apply the filter
+            $("#datatable_fixed_column thead th input[type=text]").on('keyup change',
+                function () {
+
+                    otable
+                        .column($(this).parent().index() + ':visible')
+                        .search(this.value)
+                        .draw();
+
+                });
+        };
+
+        // load related plugins
+
+        loadScript("/js/plugin/datatables/jquery.dataTables.min.js",
+            function () {
+                loadScript("/js/plugin/datatables/dataTables.colVis.min.js",
+                    function () {
+                        loadScript("/js/plugin/datatables/dataTables.tableTools.min.js",
+                            function () {
+                                loadScript("/js/plugin/datatables/dataTables.bootstrap.min.js",
+                                    function () {
+                                        loadScript("/js/plugin/datatable-responsive/datatables.responsive.min.js",
+                                            pagefunction);
+                                    });
+                            });
+                    });
+            });
+
+
+    </script>
+
+}

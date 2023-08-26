@@ -1,0 +1,471 @@
+﻿
+@section Migas{
+
+    <li class="active">Message Brokers</li>
+    <li><a asp-controller="MessageBrokers" asp-action="ListaSobres" onclick="cargando()">Lista de sobres</a></li>
+}
+
+<style type="text/css">
+    textarea {
+        white-space: normal;
+        text-align: justify;
+    }
+</style> 
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="content" class="well no-padding">
+                <form method="post" novalidate="novalidate" class="smart-form client-form">
+                    <header>
+                        <b>Buscar sobres</b>
+                    </header>
+                    <fieldset>
+                        <section class="col col-sm-3">
+                            <label class="label">Fecha inicio *</label>
+                            <label class="input">
+                                <input type="date" data-bind="value: filtro.fechaInicio" placeholder="Fecha inicio">
+                            </label>
+                        </section>
+
+                         <section class="col col-sm-3">
+                            <label class="label">Fecha fin *</label>
+                            <label class="input">
+                                <input type="date" data-bind="value: filtro.fechaFin" placeholder="Fecha fin">
+                            </label>
+                        </section>
+
+                        <section class="col col-sm-3">
+                            <label class="label">N&uacute;mero de sobre</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-file-text"></i>
+                                <input type="text" data-bind="value: filtro.numeroSobre" placeholder="Número de sobre">
+                                <b class="tooltip tooltip-bottom-right">Ingrese el número de sobre</b>
+                            </label>
+                        </section>
+
+                        <section class="col col-sm-3">
+                                <label class="label">N&uacute;mero de ticket en Zendesk</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-file-text"></i>
+                                <input type="number" data-bind="value: filtro.numeroTicketZendesk" placeholder="Número de ticket Zendesk">
+                                <b class="tooltip tooltip-bottom-right">Ingrese el número de ticket Zendesk</b>
+                            </label>
+                        </section>
+
+                        <section class="col col-sm-12"></section>
+
+                    </fieldset>
+
+                    <footer>
+                        <div id="scrollTablaRetenciones"></div>
+
+                        <button id="btn-guardar" class="btn btn-primary"
+                                data-bind="click: buscarSobresInicio"
+                                type="submit">
+                            <i class="fa fa-search"></i>
+                            &nbsp;&nbsp;BUSCAR
+                        </button>
+                        <div id="scrollTabla"></div>
+                        <button class="btn btn-lg btn-default"
+                                data-bind="click: limpiarFiltros"
+                                type="submit">
+                            <i class="fa fa-sync"></i>
+                            &nbsp;&nbsp;LIMPIAR
+                        </button>
+
+                    </footer>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- row -->
+    <div data-bind=" visible: mostrarTablaSobres()">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget jarviswidget-color-darken " id="wid-id-0" data-widget-deletebutton="false" data-widget-collapsed="false" data-widget-colorbutton="false" data-widget-editbutton="false">
+                        <header style="background-color:#eb5c27;border:#eb5c27">
+                            <span class="widget-icon">
+                                <i class="fa fa-table"></i>
+                            </span>
+                            <h2>Lista de sobres, total:</h2>
+                            <h2 data-bind="text:totalRegistrosSobres"></h2>
+                           
+                        </header>
+                        <div>
+                            <div class="jarviswidget-editbox">
+                               
+                            </div>
+                            <div class="widget-body no-padding">
+                                <table id="tb" data-page-length="50" class="table table-striped table-bordered table-hover" style="border-color:#eb5c27" width="100%">
+                                    <thead>
+                                        <tr>
+
+                                            <th data-hide="phone" style="text-align:center"> Id</th>
+                                            <th data-hide="phone" style="text-align:center"> Número sobre</th>
+                                            <th data-hide="phone" style="text-align:center">Número ticket Zendesk</th>
+                                            <th data-hide="phone" style="text-align:center">Teléfono</th>
+                                            <th data-hide="phone" style="text-align:center">Correo</th>
+                                            <th data-hide="phone" style="text-align:center"> Valor presentado</th>
+                                            <th data-hide="phone" style="text-align:center"> Fecha registro</th>
+                                            <th style="text-align:center">Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="template: { foreach: listaSobres(), as: 'sobre' }">
+                                        <tr>
+                                            <td class="text-center" data-bind="text: sobre.id"></td>
+                                            <td class="text-center" data-bind="text: sobre.numeroSobre"></td>
+                                            <td class="text-center" data-bind="text: sobre.numeroTicketZendesk"></td>
+                                            <td class="text-center" data-bind="text: sobre.telefono"></td>
+                                            <td class="text-center" data-bind="text: sobre.correoElectronico"></td>
+                                            <td class="text-center" data-bind="text: sobre.valorPresentado"></td>
+                                            <td class="text-center" data-bind="text: moment(sobre.fechaCreacion).format('DD/MM/YYYY')"></td>
+                                            <td align="center">
+                                                <a href="javascript:void(0);" class="btnEliminar font-md text-left fa fa-search" data-bind="click: $parent.obtenerBeneficiosPlan"></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+                                <div class="col col-sm-12">
+                                    <div class="col col-sm-12">
+                                        <ul class="pagination">
+                                            <li class="page-item small">
+                                                <a class="page-link small" data-bind="click: buscarSobresAnterior" href="#">Anterior</a>
+                                            </li>
+                                            <!-- ko template: { foreach: paginacion(), as :'pagina'} -->
+                                            <!-- ko if: pagina.activa==true -->
+                                            <li class="page-item active small"><a class="page-link small" data-bind="text: pagina.numeroPagina, attr: {id: pagina.numeroPagina}, click: $parent.buscarSobresPaginacion" href="#"></a></li>
+                                            <!-- /ko -->
+                                            <!-- ko if: pagina.activa==false -->
+                                            <li class="page-item small"><a class="page-link small" data-bind="text: pagina.numeroPagina, attr: {id: pagina.numeroPagina}, click: $parent.buscarSobresPaginacion" href="#"></a></li>
+                                            <!-- /ko -->
+                                            <!-- /ko -->
+                                            <li class="page-item small">
+                                                <a class="page-link small" data-bind="click: buscarSobresSiguiente" href="#">Siguiente</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- end widget content -->
+
+                        </div>
+                        <!-- end widget div -->
+
+                    </div>
+                </article>
+            </div>
+    </div>
+</section>
+<!-- end widget grid -->
+@section Scripts{
+
+    <script>
+
+        var viewModel = new ViewModel();
+
+        function ViewModel() {
+
+            var self = this;
+
+            self.mostrarTablaSobres = ko.observable(false);
+
+
+            self.pagina = ko.observable(null);
+            self.registros = ko.observable(10);
+            self.paginacion = ko.observableArray(null);
+            self.totalRegistrosSobres = ko.observable(0);
+            self.totalPaginas = ko.observable(0);
+
+            self.filtro = {
+                fechaInicio: ko.observable(""),
+                fechaFin: ko.observable(""),
+                numeroSobre: ko.observable(""),
+                numeroTicketZendesk: ko.observable(""),
+            };
+
+
+            self.limpiarFiltros = function () {
+
+                mostrarLoadingPanel("content", "");
+                location.href = '@Url.Action("ListaSobres", "MessageBrokers")';
+            };
+
+            self.listaSobres = ko.observableArray([]);
+            self.listaBenefiosPlan = ko.observableArray([]);
+
+
+             self.buscarSobres = function (paginaActual) {
+
+                mostrarLoadingPanel("content", "");
+
+                var validacion = self.validarFormulariobuscarSobres();
+                if (validacion == false) {
+                    $("#content").waitMe("hide");
+                    return;
+                }
+
+
+                var myUrl = '@Url.Action("ObtenerSobres", "MessageBrokers")';
+                var url = myUrl +
+                    '?numeroPagina=' + paginaActual +
+                    '&cantidadRegistros=' + self.registros() +
+                    '&fechaInicio=' + self.filtro.fechaInicio() +
+                    '&fechaFin=' + self.filtro.fechaFin() +
+                    '&numeroSobre=' + self.filtro.numeroSobre() +
+                    '&numeroTicketZendesk=' + self.filtro.numeroTicketZendesk();
+
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    timeout: 500000,
+                    success: function (data) {
+
+                        if (data.estado == "Error") {
+                            $("#content").waitMe("hide");
+                            mostrarNotificacion("Error", data.mensaje);
+                            self.totalRegistrosSobres(data.totalRegistros);
+                            window.scrollTo(0, 0);
+                            self.pagina(0);
+                            self.mostrarTablaSobres(false);
+                        }
+                        else {
+
+
+
+                            self.totalRegistrosSobres(data.totalRegistros);
+                            self.listaSobres(data.resultado);
+
+                            var division = data.totalRegistros % self.registros();
+                            var paginas = 0;
+                            if (division == 0) {
+                                paginas = data.totalRegistros / self.registros()
+                            }
+                            else {
+                                paginas = Math.trunc(data.totalRegistros / self.registros()) + 1;
+                            }
+
+                            self.totalRegistrosSobres(data.totalRegistros);
+
+                            self.totalPaginas(paginas);
+                            self.pagina(paginaActual);
+                            self.paginacion([]);
+                            var d = self.obtenerArregloParaPaginado();
+                            self.paginacion(d);
+
+                            if (data.totalRegistros == 0) {
+                                mostrarNotificacion("Información", "No existen registros.");
+                                self.mostrarTablaSobres(false);
+                            } else
+                            {
+                                self.mostrarTablaSobres(true);
+                            }
+
+
+
+                            $([document.documentElement, document.body]).animate({
+                                scrollTop: $("#scrollTabla").offset().top
+                            }, 1000);
+
+                            $("#content").waitMe("hide");
+                        }
+                    },
+                    error: function (data) {
+                        self.listaSobres([]);
+                        window.scrollTo(0, 0);
+                        self.mostrarTablaSobres(false);
+                        $("#content").waitMe("hide");
+                        mostrarNotificacion("Error","No fue posible consultar la información, intente nuevamente. Si el error persiste consulte al administrador del sistema.");
+                    }
+                });
+            };
+
+
+            self.validarFormulariobuscarSobres = function ()
+            {
+
+                if (self.filtro.fechaInicio() == "" || self.filtro.fechaFin() == "") {
+                    var mensaje = "";
+                    if (self.filtro.numeroConvenio() == "") {
+                        mensaje = `${mensaje} El número de convenio es obligatorio.`
+                    }
+
+                    if (self.filtro.codigoProducto() == "") {
+                        mensaje = `${mensaje} El código del producto es obligatorio.`
+                    }
+                    mostrarNotificacion("Aviso", mensaje);
+                    $("#content").waitMe("hide");
+                    return false;
+                }
+                return true;
+            }
+
+            self.obtenerArregloParaPaginado = function () {
+
+                var totalPaginas = self.totalPaginas();
+                var paginaActual = Math.trunc(self.pagina());
+                var arreglo = [];
+                //console.log("totalPaginas: " + totalPaginas);
+                var paginaLimite = 22;
+
+
+                for (var i = 1; i < totalPaginas + 1; i++) {
+                    if (totalPaginas < paginaLimite) {
+                        if (paginaActual == i) {
+                            arreglo.push({
+                                numeroPagina: i, activa: true
+                            });
+                        } else {
+                            arreglo.push({
+                                numeroPagina: i, activa: false
+                            });
+                        }
+                    } else {
+
+                        if (totalPaginas > paginaLimite) {
+
+                            if (paginaActual < paginaLimite) {
+
+
+                                for (var i = 1; i <= paginaLimite; i++) {
+                                    arreglo.push({
+                                        numeroPagina: i, activa: (paginaActual == i) ? true : false
+                                    });
+                                }
+
+                                return arreglo;
+                            }
+                            else {
+
+                                var i = paginaActual - 20;
+
+                                for (var i; i < paginaActual + 2; i++) {
+                                    if (i <= totalPaginas)
+                                        arreglo.push({
+                                            numeroPagina: i, activa: (paginaActual == i) ? true : false
+                                        });
+                                }
+
+                                return arreglo;
+
+                            }
+                        }
+                    }
+                }
+                return arreglo;
+
+            };
+
+
+            self.buscarSobresPaginacion = function (item, event) {
+                var paginaSeleccionada = $(event.target).text();
+                var pagina = parseInt(paginaSeleccionada)
+                if (self.pagina() == pagina) {
+                    return;
+                };
+                self.buscarSobres(pagina);
+            }
+
+            self.buscarSobresAnterior = function () {
+                if (self.pagina() == 1) {
+                    return;
+                }
+                self.buscarSobres(self.pagina() - 1);
+            }
+
+            self.buscarSobresSiguiente = function () {
+                if (self.pagina() >= self.totalPaginas()) {
+                    return;
+                }
+                self.buscarSobres(self.pagina() + 1);
+
+            }
+
+            self.buscarSobresInicio = function () {
+                self.buscarSobres(1);
+            }
+
+            self.regrasarSobres = function ()
+            {
+                mostrarLoadingPanel("content", "");
+                self.mostrarTablaSobres(true);
+                self.mostrarTablaBeneficioPlan(false);
+                $("#content").waitMe("hide");
+            }
+
+           
+
+            self.obtenerBeneficiosPlan = function (Sobres) {
+
+                mostrarLoadingPanel("content", "");
+
+                var myUrl = '@Url.Action("obtenerBeneficiosPlan", "Prestadores")';
+                var url = myUrl +
+                    '?idConvenioPlan=' + convenioPlan.idConvenioPlan ;
+
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    timeout: 500000,
+                    success: function (data) {
+
+                        if (data.estado == "Error") {
+
+                            mostrarNotificacion("Error", data.mensaje);
+                            self.totalRegistrosSobres(data.totalRegistros);
+                            window.scrollTo(0, 0);
+                            self.pagina(0);
+                            self.mostrarTablaBeneficioPlan(false);
+                            $("#content").waitMe("hide");
+                        }
+                        else {
+
+
+                            self.totalRegistrosSobres(data.totalRegistros);
+                            self.listaBenefiosPlan(data.resultado);
+
+                            if (data.totalRegistros == 0) {
+                                mostrarNotificacion("Información", "No existen registros.");
+                                self.mostrarTablaBeneficioPlan(false);
+
+                            } else {
+                                self.mostrarTablaBeneficioPlan(true);
+                                self.mostrarTablaConvenioPlan(false);
+                            }
+
+
+
+                            $([document.documentElement, document.body]).animate({
+                                scrollTop: $("#scrollTabla").offset().top
+                            }, 1000);
+
+                            $("#content").waitMe("hide");
+                        }
+                    },
+                    error: function (data) {
+                        self.listaBenefiosPlan([]);
+                        window.scrollTo(0, 0);
+                        self.mostrarTablaBeneficioPlan(false);
+                        $("#content").waitMe("hide");
+                        mostrarNotificacion("Error", "No fue posible consultar la información, intente nuevamente. Si el error persiste consulte al administrador del sistema.");
+                    }
+                });
+            };
+        };
+
+        ko.applyBindings(viewModel);
+
+    </script>
+}

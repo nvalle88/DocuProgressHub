@@ -1,0 +1,143 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+<TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aspnet-SmartAdmin.Web-9FAA1EFF-D2A7-44DC-876C-B1467AF1E204</UserSecretsId>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\NegocioViewModels\**" />
+    <Compile Remove="Models\Negocio\**" />
+    <Compile Remove="Models\ViewModels\Prestadores\**" />
+    <Content Remove="Models\NegocioViewModels\**" />
+    <Content Remove="Models\Negocio\**" />
+    <Content Remove="Models\ViewModels\Prestadores\**" />
+    <EmbeddedResource Remove="Models\NegocioViewModels\**" />
+    <EmbeddedResource Remove="Models\Negocio\**" />
+    <EmbeddedResource Remove="Models\ViewModels\Prestadores\**" />
+    <None Remove="Models\NegocioViewModels\**" />
+    <None Remove="Models\Negocio\**" />
+    <None Remove="Models\ViewModels\Prestadores\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Generate.Number.Net" Version="1.0.0" />
+    <PackageReference Include="knockoutjs" Version="3.5.1" />
+    <PackageReference Include="log4net" Version="2.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" PrivateAssets="All" />
+    <PackageReference Include="SendMailSMTPNet.Core" Version="1.2.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="modeloSaldusaDb\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\AppViews\Blog.cshtml" />
+    <None Include="Views\AppViews\Gallery.cshtml" />
+    <None Include="Views\AppViews\Profile.cshtml" />
+    <None Include="Views\AppViews\Projects.cshtml" />
+    <None Include="Views\AppViews\TimeLine.cshtml" />
+    <None Include="Views\Commerce\Detail.cshtml" />
+    <None Include="Views\Commerce\Orders.cshtml" />
+    <None Include="Views\Commerce\ProductView.cshtml" />
+    <None Include="Views\Element\Buttons.cshtml" />
+    <None Include="Views\Element\General.cshtml" />
+    <None Include="Views\EmailTemplates\Basic.cshtml" />
+    <None Include="Views\EmailTemplates\Hero.cshtml" />
+    <None Include="Views\EmailTemplates\NewsLetter.cshtml" />
+    <None Include="Views\EmailTemplates\SideBar.cshtml" />
+    <None Include="Views\EmailTemplates\SideBarHero.cshtml" />
+    <None Include="Views\Features\Calendar.cshtml" />
+    <None Include="Views\Features\Googlemap.cshtml" />
+    <None Include="Views\Forms\Bootstrap.cshtml" />
+    <None Include="Views\Forms\Cropping.cshtml" />
+    <None Include="Views\Forms\Dropzone.cshtml" />
+    <None Include="Views\Forms\Editors.cshtml" />
+    <None Include="Views\Forms\Plugins.cshtml" />
+    <None Include="Views\Forms\SmartElements.cshtml" />
+    <None Include="Views\Forms\Templates.cshtml" />
+    <None Include="Views\Forms\Validation.cshtml" />
+    <None Include="Views\Forms\Validator.cshtml" />
+    <None Include="Views\Forms\Wizards.cshtml" />
+    <None Include="Views\Forum\GeneralView.cshtml" />
+    <None Include="Views\Forum\PostView.cshtml" />
+    <None Include="Views\Forum\TopicView.cshtml" />
+    <None Include="Views\Graphs\ChartJS.cshtml" />
+    <None Include="Views\Graphs\Dygraphs.cshtml" />
+    <None Include="Views\Graphs\Flot.cshtml" />
+    <None Include="Views\Graphs\HighCharts.cshtml" />
+    <None Include="Views\Graphs\Inline.cshtml" />
+    <None Include="Views\Graphs\Morris.cshtml" />
+    <None Include="Views\Icons\Flags.cshtml" />
+    <None Include="Views\Icons\FontAwesome.cshtml" />
+    <None Include="Views\Icons\GlyphIcons.cshtml" />
+    <None Include="Views\Icons\Grid.cshtml" />
+    <None Include="Views\Icons\JQueryUI.cshtml" />
+    <None Include="Views\Icons\NestedLists.cshtml" />
+    <None Include="Views\Icons\TreeView.cshtml" />
+    <None Include="Views\Icons\Typography.cshtml" />
+    <None Include="Views\Intel\AppLayout.cshtml" />
+    <None Include="Views\Intel\Settings.cshtml" />
+    <None Include="Views\Intel\Skins.cshtml" />
+    <None Include="Views\Misc\Blank.cshtml" />
+    <None Include="Views\Misc\CKEditor.cshtml" />
+    <None Include="Views\Misc\EmailTemplate.cshtml" />
+    <None Include="Views\Misc\Error404.cshtml" />
+    <None Include="Views\Misc\Error500.cshtml" />
+    <None Include="Views\Misc\Invoice.cshtml" />
+    <None Include="Views\Misc\Pricing.cshtml" />
+    <None Include="Views\Misc\Search.cshtml" />
+    <None Include="Views\Misc\Versions.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Home\Anuncios.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\EditarProducto.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\IndexCliente.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\IndexAdmin.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\PanelInformacion.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\PedidosHistoricos.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\ProcesarPedido.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\ProcesarPedidoHistorico.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\ProcesarPedidoVer.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Home\Productos.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+</Project>
