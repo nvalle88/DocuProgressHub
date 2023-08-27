@@ -18,7 +18,7 @@ namespace SmartAdmin.Seed.Configuration
         /// <summary>
         ///     Indicates which type of environment the application is hosted on.
         /// </summary>
-        public string Environment { get; set; } = EnvironmentName.Development;
+        //public string Environment { get; set; } = EnvironmentName.Development;
 
         /// <summary>
         ///     Indicates whether the application should render the shortcuts container.
